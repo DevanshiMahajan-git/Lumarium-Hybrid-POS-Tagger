@@ -1,0 +1,5 @@
+{
+  "threshold": 0.7,
+  "fallback": "hmm",
+  "rule_overridable": true
+}

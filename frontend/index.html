@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMARIUM — Illuminate Every Word</title>
+  <meta name="description" content="An interactive grammar learning platform for code-mixed Hinglish and Marathi-English text powered by hybrid multi-tier NLP models.">
+  
+  <!-- Typography: Newsreader (Scholarly serif) + Plus Jakarta Sans (Crisp interface) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="site-header">
+    <div class="app-container">
+      <div class="header-inner">
+        <div class="brand-wrapper" id="brand-home-btn" title="LUMARIUM Home">
+          <div class="brand-mark">✦</div>
+          <div class="brand-text-block">
+            <span class="brand-title">LUMARIUM</span>
+            <span class="brand-tagline">Illuminate every word</span>
+          </div>
+        </div>
+
+        <nav class="nav-menu" role="tablist">
+          <button class="nav-link active" data-view="analyze" role="tab" aria-selected="true">
+            <span>🔬</span> Explore & Analyze
+          </button>
+          <button class="nav-link" data-view="practice" role="tab" aria-selected="false">
+            <span>🎮</span> Practice Chamber
+          </button>
+          <button class="nav-link" data-view="guide" role="tab" aria-selected="false">
+            <span>📖</span> Compendium
+          </button>
+          <button class="nav-link" data-view="observatory" role="tab" aria-selected="false">
+            <span>🧪</span> NLP Observatory
+          </button>
+        </nav>
+
+        <div class="header-status-badge" id="system-status-indicator" title="Model Health Status">
+          <span class="status-dot"></span>
+          <span id="system-status-text">Connecting…</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-container">
+
+    <!-- ============================================================ -->
+    <!-- VIEW 1: EXPLORE & ANALYZE -->
+    <!-- ============================================================ -->
+    <section id="view-analyze" class="view-panel active-view">
+      
+      <!-- Hero Card -->
+      <div class="hero-card">
+        <h1 class="hero-title">Illuminate Your Natural Speech</h1>
+        <p class="hero-subtitle">
+          Write a sentence the way you speak every day — in Hinglish or Marathi-English. Lumarium reveals how every word functions through hybrid computational linguistics.
+        </p>
+
+        <div class="sentence-form-wrapper">
+          <form id="analyze-form">
+            <div class="sentence-input-group">
+              <input 
+                type="text" 
+                id="sentence-input" 
+                class="sentence-input" 
+                placeholder="e.g. Maine kal school mein football khela." 
+                value="Maine kal school mein football khela."
+                required
+                autocomplete="off"
+              >
+              <button type="submit" id="analyze-submit-btn" class="btn-primary">
+                <span>Analyze Sentence</span> ✦
+              </button>
+            </div>
+          </form>
+
+          <div class="exemplar-container">
+            <span class="exemplar-label">Try an example:</span>
+            <button class="chip-btn" data-sentence="Maine kal school mein football khela.">"Maine kal school mein football khela."</button>
+            <button class="chip-btn" data-sentence="Tu homework complete kiya?">"Tu homework complete kiya?"</button>
+            <button class="chip-btn" data-sentence="Mi college la jatoy.">"Mi college la jatoy."</button>
+            <button class="chip-btn" data-sentence="Aaj weather khup mast aahe!">"Aaj weather khup mast aahe!"</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analysis Results Container -->
+      <div id="analysis-results-section" style="display:none;">
+        
+        <!-- Section: Word Tiles -->
+        <div class="section-title-bar">
+          <h2 class="section-heading">Word Tiles</h2>
+          <span class="section-subheading">Select any word below to illuminate its grammatical identity</span>
+        </div>
+        <div id="tokens-stream" class="token-stream-container"></div>
+
+        <!-- Section: Word Illumination Inspector -->
+        <div id="token-inspector" class="inspector-card"></div>
+
+        <!-- Section: Grammatical Synthesis -->
+        <div id="grammatical-synthesis" class="synthesis-card"></div>
+
+        <!-- Section: Triptych Translation View -->
+        <div class="section-title-bar">
+          <h2 class="section-heading">Script & Translation Triptych</h2>
+          <span class="section-subheading">From Romanized code-mixing to native Devanagari and fluent English</span>
+        </div>
+        <div id="translation-triptych" class="triptych-grid"></div>
+
+        <!-- Section: Word Anatomy (Morphology) & Language Spectrum (Code-Mixing) -->
+        <div class="analysis-columns-grid">
+          
+          <!-- Column A: Morphology -->
+          <div class="column-card">
+            <h3 class="section-heading" style="font-size:1.35rem; margin-bottom:0.25rem;">Word Anatomy (Morphology)</h3>
+            <p class="section-subheading" style="margin-bottom:1rem;">Stems, affixes, case markers, and inflections</p>
+            <div id="morphology-table-container" class="custom-table-wrapper"></div>
+          </div>
+
+          <!-- Column B: Language Spectrum -->
+          <div class="column-card">
+            <h3 class="section-heading" style="font-size:1.35rem; margin-bottom:0.25rem;">Language Spectrum</h3>
+            <p class="section-subheading" style="margin-bottom:0.5rem;">Code-mixing balance across vocabulary</p>
+            <div id="language-spectrum-container"></div>
+
+            <h3 class="section-heading" style="font-size:1.35rem; margin-top:1.5rem; margin-bottom:0.25rem;">Entity Scribe (NER)</h3>
+            <p class="section-subheading">Named individuals, places, dates, and organizations</p>
+            <div id="ner-entities-container" class="entity-badges-grid"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- VIEW 2: PRACTICE CHAMBER -->
+    <!-- ============================================================ -->
+    <section id="view-practice" class="view-panel">
+      <div class="quiz-chamber-card">
+        
+        <div class="section-title-bar" style="margin-top:0;">
+          <div>
+            <h2 class="section-heading">Practice Chamber</h2>
+            <p class="section-subheading">Challenge yourself on questions tailored to your analyzed sentence</p>
+          </div>
+          <button id="refresh-quiz-btn" class="btn-secondary">↺ New Questions</button>
+        </div>
+
+        <div class="quiz-score-banner">
+          <div class="quiz-score-metric">
+            <div class="metric-label">Mastery Score</div>
+            <div class="metric-value" id="quiz-score-display">0 pts</div>
+          </div>
+          <div class="quiz-score-metric">
+            <div class="metric-label">Accuracy</div>
+            <div class="metric-value" id="quiz-accuracy-display">100%</div>
+          </div>
+          <div class="quiz-score-metric">
+            <div class="metric-label">Answered</div>
+            <div class="metric-value" id="quiz-count-display">0</div>
+          </div>
+        </div>
+
+        <div id="quiz-active-area">
+          <div class="question-box">
+            <span class="question-badge" id="question-category-badge">Question 1</span>
+            <div class="question-title" id="question-title-text">Loading question…</div>
+            <div class="quiz-options-list" id="quiz-options-container"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem;">
+            <button id="quiz-submit-btn" class="btn-primary" disabled>Check Answer ✦</button>
+            <button id="quiz-next-btn" class="btn-secondary" style="display:none;">Next Question ➔</button>
+          </div>
+
+          <div id="quiz-feedback-banner" class="feedback-banner"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- VIEW 3: GRAMMAR COMPENDIUM -->
+    <!-- ============================================================ -->
+    <section id="view-guide" class="view-panel">
+      <div class="hero-card" style="padding:2rem; margin-bottom:1.5rem;">
+        <h2 class="hero-title" style="font-size:2.2rem;">Universal Dependencies Compendium</h2>
+        <p class="hero-subtitle" style="margin-bottom:0;">
+          A reference handbook for parts of speech in English, Hinglish, and Marathi-English code-mixed language.
+        </p>
+      </div>
+
+      <div class="compendium-filters" id="compendium-filter-bar"></div>
+      <div class="compendium-cards-grid" id="compendium-cards-container"></div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- VIEW 4: NLP OBSERVATORY -->
+    <!-- ============================================================ -->
+    <section id="view-observatory" class="view-panel">
+      <div class="hero-card" style="padding:2rem; margin-bottom:1.5rem;">
+        <h2 class="hero-title" style="font-size:2.2rem;">The NLP Observatory</h2>
+        <p class="hero-subtitle" style="margin-bottom:0;">
+          Inspect model arbitration diagnostics, posterior confidence scores, and WordNet validation for academic inquiry.
+        </p>
+      </div>
+
+      <!-- Controls Card -->
+      <div class="observatory-controls-card">
+        <h3 class="section-heading" style="font-size:1.3rem; margin-bottom:1rem;">Live Multi-Tier Arbiter Controls</h3>
+        <div class="controls-grid">
+          
+          <div class="control-field">
+            <label class="control-label" for="slider-threshold">
+              Transformer Confidence Threshold: <span id="val-threshold-label">0.85</span>
+            </label>
+            <input type="range" id="slider-threshold" class="slider-styled" min="0.50" max="0.99" step="0.01" value="0.85">
+            <span style="font-size:0.75rem; color:var(--text-muted);">Minimum softmax probability for transformer outright win</span>
+          </div>
+
+          <div class="control-field">
+            <label class="control-label">Fallback Policy</label>
+            <div style="display:flex; gap:1rem; font-size:0.9rem;">
+              <label><input type="radio" name="observatory-fallback" value="hmm" checked> Trust HMM</label>
+              <label><input type="radio" name="observatory-fallback" value="max_conf"> Trust Max Confidence</label>
+            </div>
+            <span style="font-size:0.75rem; color:var(--text-muted);">How uncertain predictions are resolved</span>
+          </div>
+
+          <div class="control-field">
+            <label class="control-label">Rule Overrule</label>
+            <label style="font-size:0.9rem; display:flex; align-items:center; gap:0.5rem;">
+              <input type="checkbox" id="checkbox-overrule" checked> Allow confident Transformer to overrule rules
+            </label>
+            <span style="font-size:0.75rem; color:var(--text-muted);">Compare transformer softmax against calibrated precision</span>
+          </div>
+
+        </div>
+
+        <div style="margin-top:1.25rem; display:flex; justify-content:flex-end;">
+          <button id="apply-arbiter-btn" class="btn-primary">Apply & Re-analyze ✦</button>
+        </div>
+      </div>
+
+      <!-- Observatory Trace Table -->
+      <div class="column-card" style="margin-bottom:1.5rem;">
+        <h3 class="section-heading" style="font-size:1.3rem; margin-bottom:0.25rem;">Full Decision Trace & Attribution</h3>
+        <p class="section-subheading" style="margin-bottom:1rem;" id="observatory-attribution-summary">
+          Token-by-token arbitration breakdown
+        </p>
+        <div id="observatory-trace-table-container" class="custom-table-wrapper"></div>
+      </div>
+
+      <!-- WordNet Validation Layer -->
+      <div class="column-card">
+        <h3 class="section-heading" style="font-size:1.3rem; margin-bottom:0.25rem;">English POS Validation Layer (WordNet)</h3>
+        <p class="section-subheading" style="margin-bottom:1rem;">
+          Cross-referencing translated English tokens with Princeton WordNet synset evidence
+        </p>
+        <div id="observatory-wordnet-container" class="custom-table-wrapper"></div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="app-container">
+      <div class="footer-content">
+        <div><strong>LUMARIUM</strong> — Illuminate Every Word · Code-Mixed NLP Hybrid System</div>
+        <div>Trained on LinCE Code-Mixed Benchmark · Universal Dependencies POS Tagset</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modular Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/analyze.js"></script>
+  <script src="js/practice.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
